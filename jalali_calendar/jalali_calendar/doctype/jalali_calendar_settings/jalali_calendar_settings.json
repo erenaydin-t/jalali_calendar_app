@@ -1,0 +1,181 @@
+{
+ "actions": [],
+ "creation": "2024-01-01 10:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "general_section",
+  "enabled",
+  "system_wide",
+  "column_break_1",
+  "default_format",
+  "show_holidays",
+  
+  "display_settings_section",
+  "date_format",
+  "datetime_format",
+  "column_break_2",
+  "first_day_of_week",
+  "show_week_numbers",
+  
+  "advanced_section",
+  "enable_in_lists",
+  "enable_in_reports",
+  "enable_in_print",
+  "column_break_3",
+  "enable_keyboard_shortcuts",
+  "auto_convert_imports",
+  
+  "holiday_settings_section",
+  "holidays_table"
+ ],
+ "fields": [
+  {
+   "fieldname": "general_section",
+   "fieldtype": "Section Break",
+   "label": "تنظیمات عمومی"
+  },
+  {
+   "default": "0",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "فعال",
+   "description": "فعال‌سازی تقویم شمسی"
+  },
+  {
+   "default": "0",
+   "fieldname": "system_wide",
+   "fieldtype": "Check",
+   "label": "برای همه کاربران",
+   "description": "اعمال تقویم شمسی برای تمام کاربران سیستم"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "YYYY/MM/DD",
+   "fieldname": "default_format",
+   "fieldtype": "Select",
+   "label": "فرمت پیش‌فرض",
+   "options": "YYYY/MM/DD\nYYYY-MM-DD\nDD/MM/YYYY\nDD-MM-YYYY"
+  },
+  {
+   "default": "1",
+   "fieldname": "show_holidays",
+   "fieldtype": "Check",
+   "label": "نمایش تعطیلات"
+  },
+  
+  {
+   "fieldname": "display_settings_section",
+   "fieldtype": "Section Break",
+   "label": "تنظیمات نمایش"
+  },
+  {
+   "default": "YYYY/MM/DD",
+   "fieldname": "date_format",
+   "fieldtype": "Data",
+   "label": "فرمت تاریخ"
+  },
+  {
+   "default": "YYYY/MM/DD HH:mm",
+   "fieldname": "datetime_format",
+   "fieldtype": "Data",
+   "label": "فرمت تاریخ و زمان"
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "6",
+   "fieldname": "first_day_of_week",
+   "fieldtype": "Select",
+   "label": "اولین روز هفته",
+   "options": "6-شنبه\n0-یکشنبه\n1-دوشنبه"
+  },
+  {
+   "default": "0",
+   "fieldname": "show_week_numbers",
+   "fieldtype": "Check",
+   "label": "نمایش شماره هفته"
+  },
+  
+  {
+   "fieldname": "advanced_section",
+   "fieldtype": "Section Break",
+   "label": "تنظیمات پیشرفته"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_in_lists",
+   "fieldtype": "Check",
+   "label": "فعال در لیست‌ها"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_in_reports",
+   "fieldtype": "Check",
+   "label": "فعال در گزارش‌ها"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_in_print",
+   "fieldtype": "Check",
+   "label": "فعال در چاپ"
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_keyboard_shortcuts",
+   "fieldtype": "Check",
+   "label": "میانبرهای صفحه‌کلید"
+  },
+  {
+   "default": "0",
+   "fieldname": "auto_convert_imports",
+   "fieldtype": "Check",
+   "label": "تبدیل خودکار در Import"
+  },
+  
+  {
+   "fieldname": "holiday_settings_section",
+   "fieldtype": "Section Break",
+   "label": "تعطیلات رسمی"
+  },
+  {
+   "fieldname": "holidays_table",
+   "fieldtype": "Table",
+   "label": "لیست تعطیلات",
+   "options": "Jalali Holiday"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "issingle": 1,
+ "links": [],
+ "modified": "2024-01-01 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Jalali Calendar",
+ "name": "Jalali Calendar Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

@@ -1,0 +1,52 @@
+MIT License
+
+Copyright (c) 2024 Jalali Calendar for ERPNext Contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+## Third-Party Licenses
+
+This software uses the following third-party libraries:
+
+### Moment-Jalaali
+- License: MIT
+- Copyright: Copyright (c) 2018 Behrang Noroozinia
+- Source: https://github.com/jalaali/moment-jalaali
+
+### PersianDatepicker
+- License: MIT  
+- Copyright: Copyright (c) Mohammad Dayyan
+- Source: https://github.com/behzadi/persianDatepicker
+
+### PersianTools (Python)
+- License: MIT
+- Copyright: Copyright (c) 2021 Persian Tools
+- Source: https://github.com/persian-tools/py-persian-tools
+
+### JDatetime (Python)
+- License: BSD
+- Copyright: Copyright (c) Milad Rastian
+- Source: https://github.com/slashmili/python-jalali
+
+### Vazir Font (Optional)
+- License: SIL Open Font License 1.1
+- Copyright: Copyright (c) Saber Rastikerdar
+- Source: https://github.com/rastikerdar/vazir-font

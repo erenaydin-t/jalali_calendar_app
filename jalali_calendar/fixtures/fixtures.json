@@ -1,0 +1,8 @@
+[
+  {
+    "doctype": "Custom Field",
+    "filters": [
+      ["name", "in", ["User-use_jalali_calendar", "System Settings-use_jalali_calendar"]]
+    ]
+  }
+]
