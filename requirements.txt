@@ -1,0 +1,2 @@
+persiantools==3.0.1
+jdatetime==4.1.1
