@@ -1,0 +1,11 @@
+{
+    "jalali_calendar/public/js/jalali_calendar.min.js": [
+        "public/js/moment-jalaali.min.js",
+        "public/js/persianDatepicker.min.js",
+        "public/js/jalali_calendar.js"
+    ],
+    "jalali_calendar/public/css/jalali_calendar.min.css": [
+        "public/css/persianDatepicker.css",
+        "public/css/jalali_calendar.css"
+    ]
+}

@@ -1,0 +1,7 @@
+{
+    "name": "jalali_calendar",
+    "version": "1.0.0",
+    "description": "Jalali (Shamsi) Calendar for ERPNext",
+    "author": "Eren Aydin",
+    "license": "MIT"
+}
