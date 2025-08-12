@@ -1,156 +1,105 @@
-"""
-Jalali Calendar Converter Module
-تبدیل تاریخ‌های شمسی به میلادی و بالعکس
-"""
-
 import frappe
 from frappe import _
+import jdatetime
+from datetime import datetime
 from persiantools.jdatetime import JalaliDate, JalaliDateTime
-from datetime import datetime, date
-import json
-
-@frappe.whitelist()
-def convert_to_jalali(gregorian_date):
-    """
-    تبدیل تاریخ میلادی به شمسی
-    
-    Args:
-        gregorian_date: تاریخ میلادی به فرمت string یا date object
-    
-    Returns:
-        dict: حاوی تاریخ شمسی به فرمت‌های مختلف
-    """
-    try:
-        if isinstance(gregorian_date, str):
-            # تبدیل string به date object
-            if ' ' in gregorian_date:
-                dt = datetime.strptime(gregorian_date, '%Y-%m-%d %H:%M:%S')
-                jalali = JalaliDateTime.to_jalali(dt)
-                return {
-                    'date': jalali.strftime('%Y/%m/%d'),
-                    'datetime': jalali.strftime('%Y/%m/%d %H:%M:%S'),
-                    'year': jalali.year,
-                    'month': jalali.month,
-                    'day': jalali.day,
-                    'month_name': get_jalali_month_name(jalali.month)
-                }
-            else:
-                dt = datetime.strptime(gregorian_date, '%Y-%m-%d')
-                jalali = JalaliDate.to_jalali(dt)
-                return {
-                    'date': jalali.strftime('%Y/%m/%d'),
-                    'year': jalali.year,
-                    'month': jalali.month,
-                    'day': jalali.day,
-                    'month_name': get_jalali_month_name(jalali.month)
-                }
-        elif isinstance(gregorian_date, (date, datetime)):
-            if isinstance(gregorian_date, datetime):
-                jalali = JalaliDateTime.to_jalali(gregorian_date)
-                return {
-                    'date': jalali.strftime('%Y/%m/%d'),
-                    'datetime': jalali.strftime('%Y/%m/%d %H:%M:%S'),
-                    'year': jalali.year,
-                    'month': jalali.month,
-                    'day': jalali.day,
-                    'month_name': get_jalali_month_name(jalali.month)
-                }
-            else:
-                jalali = JalaliDate.to_jalali(gregorian_date)
-                return {
-                    'date': jalali.strftime('%Y/%m/%d'),
-                    'year': jalali.year,
-                    'month': jalali.month,
-                    'day': jalali.day,
-                    'month_name': get_jalali_month_name(jalali.month)
-                }
-    except Exception as e:
-        frappe.log_error(f"Error converting to Jalali: {str(e)}")
-        return None
-
-@frappe.whitelist()
-def convert_to_gregorian(jalali_date_str):
-    """
-    تبدیل تاریخ شمسی به میلادی
-    
-    Args:
-        jalali_date_str: تاریخ شمسی به فرمت string (مثلا: 1402/10/15)
-    
-    Returns:
-        str: تاریخ میلادی به فرمت Y-m-d
-    """
-    try:
-        # حذف اسلش‌ها و تبدیل به فرمت مناسب
-        parts = jalali_date_str.replace('/', '-').split('-')
-        if len(parts) == 3:
-            year = int(parts[0])
-            month = int(parts[1])
-            day = int(parts[2])
-            
-            jalali = JalaliDate(year, month, day)
-            gregorian = jalali.to_gregorian()
-            
-            return gregorian.strftime('%Y-%m-%d')
-    except Exception as e:
-        frappe.log_error(f"Error converting to Gregorian: {str(e)}")
-        return jalali_date_str  # در صورت خطا، همان مقدار اولیه را برگردان
-
-def get_jalali_month_name(month_number):
-    """
-    دریافت نام ماه شمسی
-    
-    Args:
-        month_number: شماره ماه (1-12)
-    
-    Returns:
-        str: نام ماه به فارسی
-    """
-    months = [
-        'فروردین', 'اردیبهشت', 'خرداد',
-        'تیر', 'مرداد', 'شهریور',
-        'مهر', 'آبان', 'آذر',
-        'دی', 'بهمن', 'اسفند'
-    ]
-    
-    if 1 <= month_number <= 12:
-        return months[month_number - 1]
-    return ''
 
 @frappe.whitelist()
 def get_user_calendar_preference():
-    """
-    دریافت تنظیمات تقویم کاربر فعلی
-    
-    Returns:
-        bool: آیا تقویم شمسی فعال است یا خیر
-    """
-    user = frappe.session.user
-    user_doc = frappe.get_doc("User", user)
-    
-    # بررسی فیلد سفارشی برای تنظیمات تقویم
-    if hasattr(user_doc, 'use_jalali_calendar'):
-        return user_doc.use_jalali_calendar
-    
-    # بررسی تنظیمات سیستم
-    return frappe.db.get_single_value('System Settings', 'use_jalali_calendar') or False
+    """Get user's calendar preference"""
+    try:
+        # Check user preference
+        user_preference = frappe.db.get_value("User", frappe.session.user, "use_jalali_calendar")
+        if user_preference:
+            return True
+        
+        # Check system setting
+        system_preference = frappe.db.get_single_value("System Settings", "use_jalali_calendar")
+        return system_preference or False
+    except:
+        return False
 
 @frappe.whitelist()
-def bulk_convert_dates(dates_dict):
-    """
-    تبدیل دسته‌ای تاریخ‌ها
-    
-    Args:
-        dates_dict: دیکشنری حاوی تاریخ‌ها
-    
-    Returns:
-        dict: دیکشنری تاریخ‌های تبدیل شده
-    """
-    if isinstance(dates_dict, str):
-        dates_dict = json.loads(dates_dict)
-    
-    converted = {}
-    for field_name, date_value in dates_dict.items():
+def convert_to_jalali(date_str):
+    """Convert Gregorian date to Jalali"""
+    try:
+        if not date_str:
+            return ""
+        
+        # Parse the date string
+        if isinstance(date_str, str):
+            # Try different date formats
+            for fmt in ['%Y-%m-%d', '%Y-%m-%d %H:%M:%S', '%Y/%m/%d']:
+                try:
+                    date_obj = datetime.strptime(date_str, fmt).date()
+                    break
+                except ValueError:
+                    continue
+            else:
+                date_obj = datetime.strptime(date_str, '%Y-%m-%d').date()
+        else:
+            date_obj = date_str
+        
+        # Convert to Jalali using jdatetime
+        jalali_date = jdatetime.date.fromgregorian(date=date_obj)
+        
+        # Get month name
+        month_names = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور',
+                      'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند']
+        
+        # Return formatted Jalali date
+        return {
+            'formatted': jalali_date.strftime('%Y/%m/%d'),
+            'year': jalali_date.year,
+            'month': jalali_date.month,
+            'day': jalali_date.day,
+            'month_name': month_names[jalali_date.month - 1]
+        }
+    except Exception as e:
+        frappe.log_error(f"Error converting to Jalali: {str(e)}")
+        return {'formatted': date_str, 'error': str(e)}
+
+@frappe.whitelist()
+def convert_to_gregorian(date_str):
+    """Convert Jalali date to Gregorian"""
+    try:
+        if not date_str:
+            return ""
+        
+        # Parse Jalali date (expected format: YYYY/MM/DD or YYYY-MM-DD)
+        date_str = date_str.replace('-', '/')
+        parts = date_str.split('/')
+        if len(parts) != 3:
+            return date_str
+        
+        year, month, day = map(int, parts)
+        
+        # Create Jalali date object
+        jalali_date = jdatetime.date(year, month, day)
+        
+        # Convert to Gregorian
+        gregorian_date = jalali_date.togregorian()
+        
+        # Return formatted date
+        return gregorian_date.strftime('%Y-%m-%d')
+    except Exception as e:
+        frappe.log_error(f"Error converting to Gregorian: {str(e)}")
+        return date_str
+
+@frappe.whitelist()
+def get_jalali_date_for_field(doctype, docname, fieldname):
+    """Get Jalali date for a specific field"""
+    try:
+        if not frappe.has_permission(doctype, 'read'):
+            frappe.throw(_('Insufficient Permission'))
+            
+        doc = frappe.get_doc(doctype, docname)
+        date_value = doc.get(fieldname)
+        
         if date_value:
-            converted[field_name] = convert_to_jalali(date_value)
-    
-    return converted
+            return convert_to_jalali(str(date_value))
+        
+        return {'formatted': '', 'error': 'No date value'}
+    except Exception as e:
+        frappe.log_error(f"Error getting Jalali date: {str(e)}")
+        return {'formatted': '', 'error': str(e)}
